@@ -1,0 +1,11 @@
+pandas
+seaborn
+numpy
+catboost
+xgboost
+scikit-learn
+imbalanced-learn
+matplotlib
+jupyter
+cassandra-driver
+jupyterlab
