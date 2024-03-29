@@ -13,15 +13,15 @@ The project uses the following APIs:
 
 ## Running the Pipeline
 
-1. Create network and set up Kafka containers 
+1. Create network for Kafka and Cassandra  and set up Kafka containers 
 ```bash
 docker network create kafka-network
-docker-compose -f kafka/docker-compose.yml up -d
+docker network create cassandra-network
 ```
 
-2. Create network and set up Cassandra containers
+2. Set up Kafka and Cassandra containers
 ```bash
-docker network create cassandra-network
+docker-compose -f kafka/docker-compose.yml up -d
 docker-compose -f cassandra/docker-compose.yml up -d  
 ```
 
@@ -33,7 +33,7 @@ docker-compose -f cassandra/docker-compose.yml up -d
 ```bash
 curl -X GET http://localhost:8083/connectors
 ```
-Output is `["twittersink","weathersink","fakersink", "iqairsink"]`
+Output is `["twittersink","weathersink","iqairsink"]`
 
 5. Access to kafka-connect and run 
 ```bash
@@ -53,7 +53,6 @@ desc keyspaces;
 use kafkapipeline;
 desc tables;
 select * from weatherreport;
-select * from fakerdata;
 select * from iqairdata;
 exit
 exit
