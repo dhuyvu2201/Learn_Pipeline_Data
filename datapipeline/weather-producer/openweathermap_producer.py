@@ -25,17 +25,17 @@ sc = connect(apiInfo.name,
 
 
 async def get_weather(city):
-    if isinstance(city, list):
-        dfs = [] 
-        for c in city:
-            weather_data = await sc.query("weather", q=str(c))  
-            df_weather = pd.DataFrame(weather_data)
-            dfs.append(df_weather)  
-        return dfs  
-    else:
-        df_weather = await sc.query("weather", q=city)
-        return pd.DataFrame(df_weather) 
-
+    while True:
+        try:
+            df_weather = await sc.query("weather", q=city)
+            break  # Thoát khỏi vòng lặp nếu không có lỗi
+        except Exception:
+            await asyncio.sleep(5)  # Chờ 5 giây trước khi thử lại
+            
+    if 'description' in df_weather.columns:
+        df_weather = df_weather[df_weather['description'].apply(lambda x: isinstance(x, str))]
+    
+    return df_weather
 
 def run():
     locations = [
